@@ -157,22 +157,47 @@ EXTMEM_DRIVER_PSRAM_StatusTypeDef EXTMEM_DRIVER_PSRAM_Enable_MemoryMappedMode(EX
 {
   EXTMEM_DRIVER_PSRAM_StatusTypeDef retr = EXTMEM_DRIVER_PSRAM_OK;
 
-  /* configure the read wrap mode */
-  if (HAL_OK != SAL_XSPI_ConfigureWrappMode(&PsramObject->psram_private.SALObject, 
-                                            PsramObject->psram_public.WrapRead_command, 
-                                            PsramObject->psram_public.Write_DummyCycle))
+  if(PsramObject->psram_private.SALObject.hxspi->Init.MemoryType != HAL_XSPI_MEMTYPE_HYPERBUS)
   {
-    retr = EXTMEM_DRIVER_PSRAM_ERROR_MAP_ENABLE;
-  }
-   
-  /* launch the memory mapped mode */
-  if (HAL_OK != SAL_XSPI_EnableMapMode(&PsramObject->psram_private.SALObject, 
-                                       PsramObject->psram_public.Read_command, 
-                                       PsramObject->psram_public.Read_DummyCycle,
-                                       PsramObject->psram_public.Write_command, 
-                                       PsramObject->psram_public.Write_DummyCycle))
+    /* configure the read wrap mode */
+    if (HAL_OK != SAL_XSPI_ConfigureWrappMode(&PsramObject->psram_private.SALObject, 
+                                              PsramObject->psram_public.WrapRead_command, 
+                                              PsramObject->psram_public.Write_DummyCycle))
+    {
+      retr = EXTMEM_DRIVER_PSRAM_ERROR_MAP_ENABLE;
+    }
+    
+    /* launch the memory mapped mode */
+    if (HAL_OK != SAL_XSPI_EnableMapMode(&PsramObject->psram_private.SALObject, 
+                                        PsramObject->psram_public.Read_command, 
+                                        PsramObject->psram_public.Read_DummyCycle,
+                                        PsramObject->psram_public.Write_command, 
+                                        PsramObject->psram_public.Write_DummyCycle))
+    {
+      retr = EXTMEM_DRIVER_PSRAM_ERROR_MAP_ENABLE;
+    }
+  } else
   {
-    retr = EXTMEM_DRIVER_PSRAM_ERROR_MAP_ENABLE;
+    XSPI_HyperbusCmdTypeDef sCommand;
+    XSPI_MemoryMappedTypeDef sMemMappedCfg;
+
+    sCommand.AddressSpace = HAL_XSPI_MEMORY_ADDRESS_SPACE;
+    sCommand.AddressWidth = HAL_XSPI_ADDRESS_32_BITS;
+    sCommand.DQSMode      = HAL_XSPI_DQS_ENABLE;
+    sCommand.Address      = 0;
+    sCommand.DataLength   = 1;
+  
+    if (HAL_XSPI_HyperbusCmd(PsramObject->psram_private.SALObject.hxspi, &sCommand, HAL_XSPI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
+    {
+      retr = EXTMEM_DRIVER_PSRAM_ERROR_MAP_ENABLE;
+    }
+  
+    sMemMappedCfg.TimeOutActivation = HAL_XSPI_TIMEOUT_COUNTER_DISABLE;
+  
+    if (HAL_XSPI_MemoryMapped(PsramObject->psram_private.SALObject.hxspi, &sMemMappedCfg) != HAL_OK)
+    {
+      retr = EXTMEM_DRIVER_PSRAM_ERROR_MAP_ENABLE;
+    }
   }
   return retr;
 }
