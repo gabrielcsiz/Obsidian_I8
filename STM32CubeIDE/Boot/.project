@@ -154,34 +154,9 @@
 			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/extmem_manager.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/Core/flash.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/flash.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Core/gpio.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/gpio.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Core/hpdma.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/hpdma.c</locationURI>
-		</link>
-		<link>
 			<name>Application/User/Core/main.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/main.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Core/memorymap.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/memorymap.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Core/sbs.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/sbs.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/Core/stm32h7rsxx_hal_msp.c</name>
@@ -192,11 +167,6 @@
 			<name>Application/User/Core/stm32h7rsxx_it.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/stm32h7rsxx_it.c</locationURI>
-		</link>
-		<link>
-			<name>Application/User/Core/xspi.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Boot/Core/Src/xspi.c</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
